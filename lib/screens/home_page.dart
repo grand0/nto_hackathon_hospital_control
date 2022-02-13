@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hospital_control/controllers/data_controller.dart';
 import 'package:hospital_control/controllers/setting_controller.dart';
 import 'package:hospital_control/controllers/split_view_controller.dart';
+import 'package:hospital_control/models/auth_models.dart';
 import 'package:hospital_control/screens/common/notification.dart';
 import 'package:hospital_control/screens/common/prop_card.dart';
 import 'package:sprintf/sprintf.dart';
@@ -12,24 +13,42 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthStatus status = Get.arguments;
+    bool adminFeatures = false;
+    switch (status.status) {
+      case Status.admin:
+        adminFeatures = true;
+        break;
+      case Status.user:
+        adminFeatures = false;
+        break;
+      case Status.noUser:
+        print('unknown user');
+        Get.offNamed('/auth');
+        break;
+    }
     SplitViewController controller = Get.find<SplitViewController>();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Контроль микроклимата'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Уставки',
-            onPressed: () => controller.toggleSplit(),
-          ),
-        ],
+        actions: adminFeatures
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  tooltip: 'Уставки',
+                  onPressed: () => controller.toggleSplit(),
+                ),
+              ]
+            : null,
       ),
-      body: Obx(() => SplitView(
-            showRightWidget: controller.split,
-            leftWidget: const DataPanel(),
-            rightWidget: const SettingsPanel(),
-          )),
+      body: adminFeatures
+          ? Obx(() => SplitView(
+                showRightWidget: controller.split,
+                leftWidget: const DataPanel(),
+                rightWidget: const SettingsPanel(),
+              ))
+          : const DataPanel(),
     );
   }
 }
