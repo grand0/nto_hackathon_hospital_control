@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:hospital_control/controllers/data_controller.dart';
 import 'package:hospital_control/controllers/setting_controller.dart';
@@ -24,24 +25,26 @@ class HomePage extends StatelessWidget {
         break;
       case Status.noUser:
         print('unknown user');
-        Get.offNamed('/auth');
+        SchedulerBinding.instance
+            ?.addPostFrameCallback((_) => Get.offNamed('/', arguments: status));
         break;
     }
     SplitViewController controller = Get.find<SplitViewController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Контроль микроклимата'),
-        actions: adminFeatures
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.settings),
-                  tooltip: 'Уставки',
-                  onPressed: () => controller.toggleSplit(),
-                ),
-              ]
-            : null,
-      ),
+      appBar: AppBar(title: const Text('Контроль микроклимата'), actions: [
+        if (adminFeatures)
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Уставки',
+            onPressed: () => controller.toggleSplit(),
+          ),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          tooltip: 'Выйти',
+          onPressed: () => Get.offNamed('/auth'),
+        ),
+      ]),
       body: adminFeatures
           ? Obx(() => SplitView(
                 showRightWidget: controller.split,
@@ -146,7 +149,7 @@ class DataPanel extends GetView<DataController> {
                 childAspectRatio: 1.5,
                 children: [
                   PropCard(
-                    data: "${data?.temperature}°C",
+                    data: sprintf('%.1f°C', [data?.temperature]),
                     description: "Температура",
                     gradient: LinearGradient(
                       colors: [
@@ -159,7 +162,7 @@ class DataPanel extends GetView<DataController> {
                     textColor: Colors.white,
                   ),
                   PropCard(
-                    data: "${data?.humidity}%",
+                    data: sprintf('%.0f%%', [data?.humidity]),
                     description: "Влажность",
                     gradient: LinearGradient(
                       colors: [
@@ -172,7 +175,7 @@ class DataPanel extends GetView<DataController> {
                     textColor: Colors.white,
                   ),
                   PropCard(
-                    data: "${data?.light} лк",
+                    data: sprintf('%.1f лк', [data?.light]),
                     description: "Освещенность",
                     gradient: LinearGradient(
                       colors: [
@@ -185,7 +188,7 @@ class DataPanel extends GetView<DataController> {
                     textColor: Colors.white,
                   ),
                   PropCard(
-                    data: "${data?.energy.toPrecision(1)} кВт*ч",
+                    data: sprintf('%.1f Вт*ч', [data?.energy]),
                     description: "Потребление",
                     gradient: LinearGradient(
                       colors: [

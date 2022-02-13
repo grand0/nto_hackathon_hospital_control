@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:hospital_control/controllers/auth_controller.dart';
 
@@ -38,7 +39,8 @@ class AuthPage extends GetView<AuthController> {
               const SizedBox(height: 8),
               controller.obx(
                 (status) {
-                  Get.offNamed('/', arguments: status);
+                  SchedulerBinding.instance?.addPostFrameCallback(
+                      (_) => Get.offNamed('/', arguments: status));
                   return const Text('Вход выполнен!');
                 },
                 onEmpty: ElevatedButton(
@@ -55,9 +57,9 @@ class AuthPage extends GetView<AuthController> {
                 ),
                 onLoading: const CircularProgressIndicator(),
                 onError: (err) => ElevatedButton(
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Войти'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Войти ($err)'),
                   ),
                   onPressed: () {
                     controller.auth(

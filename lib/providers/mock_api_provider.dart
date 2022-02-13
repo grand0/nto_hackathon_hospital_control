@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:hospital_control/models/auth_models.dart';
 import 'package:hospital_control/models/data_model.dart';
 import 'package:hospital_control/providers/api_provider.dart';
 
@@ -30,5 +31,12 @@ class MockApiProvider extends ApiProvider {
       print('posted: $minTemp $maxTemp');
     }
     return await Future.delayed(const Duration(seconds: 2));
+  }
+
+  @override
+  Future<AuthStatus> auth(
+      {required String username, required String password}) async {
+    return await Future.delayed(
+        const Duration(seconds: 1), () => AuthStatus(Status.admin));
   }
 }

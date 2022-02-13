@@ -17,7 +17,6 @@ class AuthController extends GetxController with StateMixin<AuthStatus> {
     change(null, status: RxStatus.loading());
     _apiProvider.auth(username: username, password: password).then(
       (model) {
-        print(model.status);
         if (model.status == Status.noUser) {
           change(null, status: RxStatus.empty());
         } else {
