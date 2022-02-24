@@ -160,6 +160,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.thermostat,
                   ),
                   PropCard(
                     data: sprintf('%.0f%%', [data?.humidity]),
@@ -173,6 +174,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.grain,
                   ),
                   PropCard(
                     data: sprintf('%.1f лк', [data?.light]),
@@ -186,6 +188,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.lightbulb,
                   ),
                   PropCard(
                     data: sprintf('%.1f Вт*ч', [data?.energy]),
@@ -199,6 +202,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.bolt,
                   ),
                   PropCard(
                     data: motion == null
@@ -219,6 +223,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.person,
                   ),
                   PropCard(
                     data: open == null
@@ -239,6 +244,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.door_front_door,
                   ),
                   PropCard(
                     data: heater == null
@@ -259,6 +265,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.local_fire_department,
                   ),
                   PropCard(
                     data: cooler == null
@@ -279,6 +286,7 @@ class DataPanel extends GetView<DataController> {
                       end: Alignment.bottomRight,
                     ),
                     textColor: Colors.white,
+                    icon: Icons.ac_unit,
                   ),
                 ],
               );

@@ -8,6 +8,7 @@ class PropCard extends StatelessWidget {
   final LinearGradient? gradient;
   final Color? textColor;
   final void Function()? onTap;
+  final IconData? icon;
 
   const PropCard({
     Key? key,
@@ -17,6 +18,7 @@ class PropCard extends StatelessWidget {
     this.gradient,
     this.textColor,
     this.onTap,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -37,25 +39,35 @@ class PropCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16.0),
           onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  data,
-                  style: dataTheme,
-                  overflow: TextOverflow.ellipsis,
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Icon(
+                icon,
+                color: Colors.white.withOpacity(0.3),
+                size: 160,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      data,
+                      style: dataTheme,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      description,
+                      style: descTheme,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
                 ),
-                Text(
-                  description,
-                  style: descTheme,
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
