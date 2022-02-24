@@ -144,8 +144,8 @@ class DataPanel extends GetView<DataController> {
               final bool? heater = data?.heater;
               final bool? cooler = data?.cooler;
 
-              return GridView.count(
-                crossAxisCount: 4,
+              return GridView.extent(
+                maxCrossAxisExtent: 300,
                 childAspectRatio: 1.5,
                 children: [
                   PropCard(
@@ -528,6 +528,10 @@ class SplitView extends StatelessWidget {
         final maxHeight = constraints.maxHeight;
         final leftWidth = maxWidth * _ratio - _dividerWidth / 2;
         final rightWidth = maxWidth * (1 - _ratio) - _dividerWidth / 2;
+
+        if (maxWidth < 1000) {
+          return rightWidget;
+        }
 
         return SizedBox(
           width: maxWidth,
