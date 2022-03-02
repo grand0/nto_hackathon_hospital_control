@@ -42,4 +42,15 @@ class ApiProvider extends GetConnect {
       return AuthStatus.fromJson(jsonDecode(resp.bodyString ?? ''));
     }
   }
+
+  Future<RegisterStatus> register(
+      {required String username, required String password}) async {
+    final resp =
+        await post('$url/register', UserModel(username, password).toJson());
+    if (resp.status.hasError) {
+      return Future.error(resp.statusText ?? '');
+    } else {
+      return RegisterStatus.fromJson(jsonDecode(resp.bodyString ?? ''));
+    }
+  }
 }

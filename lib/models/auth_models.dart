@@ -30,6 +30,16 @@ class AuthStatus {
   }
 }
 
+class RegisterStatus {
+  late final bool registered;
+
+  RegisterStatus(this.registered);
+
+  RegisterStatus.fromJson(Map<String, dynamic> json) {
+    registered = json['registered'];
+  }
+}
+
 enum Status {
   admin, user, noUser,
 }

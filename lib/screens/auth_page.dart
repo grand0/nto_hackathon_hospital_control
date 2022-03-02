@@ -17,60 +17,75 @@ class AuthPage extends GetView<AuthController> {
         title: const Text('Вход'),
       ),
       body: Center(
-        child: SizedBox(
-          width: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AuthTextField(
-                controller: usernameEditingController,
-                hint: 'Пользователь',
-                autofocus: true,
-                icon: const Icon(Icons.person),
-              ),
-              const SizedBox(height: 8),
-              AuthTextField(
-                controller: passwordEditingController,
-                hint: 'Пароль',
-                obscure: true,
-                icon: const Icon(Icons.lock),
-              ),
-              const SizedBox(height: 8),
-              controller.obx(
-                (status) {
-                  SchedulerBinding.instance?.addPostFrameCallback(
-                      (_) => Get.offNamed('/', arguments: status));
-                  return const Text('Вход выполнен!');
-                },
-                onEmpty: ElevatedButton(
-                  child: const Padding(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AuthTextField(
+                  controller: usernameEditingController,
+                  hint: 'Пользователь',
+                  autofocus: true,
+                  icon: const Icon(Icons.person),
+                ),
+                const SizedBox(height: 8),
+                AuthTextField(
+                  controller: passwordEditingController,
+                  hint: 'Пароль',
+                  obscure: true,
+                  icon: const Icon(Icons.lock),
+                ),
+                const SizedBox(height: 8),
+                controller.obx(
+                  (status) {
+                    SchedulerBinding.instance?.addPostFrameCallback(
+                        (_) => Get.offNamed('/', arguments: status));
+                    return const Text('Вход выполнен!');
+                  },
+                  onEmpty: ElevatedButton.icon(
+                    icon: const Icon(Icons.login),
+                    label: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Войти'),
+                    ),
+                    onPressed: () {
+                      controller.auth(
+                        username: usernameEditingController.text,
+                        password: passwordEditingController.text,
+                      );
+                    },
+                  ),
+                  onLoading: const CircularProgressIndicator(),
+                  onError: (err) => ElevatedButton.icon(
+                    icon: const Icon(Icons.login),
+                    label: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Войти ($err)'),
+                    ),
+                    onPressed: () {
+                      controller.auth(
+                        username: usernameEditingController.text,
+                        password: passwordEditingController.text,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Get.offNamed('/register');
+                  },
+                  icon: const Icon(Icons.how_to_reg),
+                  label: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text('Войти'),
+                    child: Text('Регистрация'),
                   ),
-                  onPressed: () {
-                    controller.auth(
-                      username: usernameEditingController.text,
-                      password: passwordEditingController.text,
-                    );
-                  },
                 ),
-                onLoading: const CircularProgressIndicator(),
-                onError: (err) => ElevatedButton(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Войти ($err)'),
-                  ),
-                  onPressed: () {
-                    controller.auth(
-                      username: usernameEditingController.text,
-                      password: passwordEditingController.text,
-                    );
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
