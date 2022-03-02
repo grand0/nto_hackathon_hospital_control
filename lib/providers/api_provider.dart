@@ -13,7 +13,12 @@ class ApiProvider extends GetConnect {
     if (resp.status.hasError) {
       return Future.error(resp.statusText ?? '');
     } else {
-      return DataModel.fromJson(jsonDecode(resp.bodyString ?? ''));
+      try {
+        DataModel dm = DataModel.fromJson(jsonDecode(resp.bodyString ?? ''));
+        return dm;
+      } catch (e) {
+        return Future.error('empty');
+      }
     }
   }
 

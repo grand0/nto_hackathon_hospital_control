@@ -14,7 +14,8 @@ class DataController extends GetxController with StateMixin<DataModel> {
         change(model, status: RxStatus.success());
       },
       onError: (err) {
-        change(null, status: RxStatus.error(err.toString()));
+        err = err.toString() == 'empty' ? 'Нет данных' : err.toString();
+        change(null, status: RxStatus.error(err));
         if (kDebugMode) {
           print(err);
         }
