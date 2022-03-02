@@ -9,7 +9,7 @@ class ApiProvider extends GetConnect {
   String url = 'http://localhost:80/api/';
 
   Future<DataModel> getData() async {
-    final resp = await get('${url}data');
+    final resp = await get('$url/data');
     if (resp.status.hasError) {
       return Future.error(resp.statusText ?? '');
     } else {
@@ -19,7 +19,7 @@ class ApiProvider extends GetConnect {
 
   Future<void> postTemp(double minTemp, double maxTemp) async {
     final resp = await post(
-        '${url}settings',
+        '$url/settings',
         PostTempModel(minTemperature: minTemp, maxTemperature: maxTemp)
             .toJson());
     if (resp.status.hasError) {
@@ -30,7 +30,7 @@ class ApiProvider extends GetConnect {
   Future<AuthStatus> auth(
       {required String username, required String password}) async {
     final resp =
-        await post('${url}auth', UserModel(username, password).toJson());
+        await post('$url/auth', UserModel(username, password).toJson());
     if (resp.status.hasError) {
       return Future.error(resp.statusText ?? '');
     } else {
