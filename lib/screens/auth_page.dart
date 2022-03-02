@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:hospital_control/controllers/auth_controller.dart';
+import 'package:hospital_control/screens/common/auth_textfield.dart';
 
 class AuthPage extends GetView<AuthController> {
   const AuthPage({Key? key}) : super(key: key);
@@ -72,39 +73,6 @@ class AuthPage extends GetView<AuthController> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AuthTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
-  final bool obscure;
-  final bool autofocus;
-  final Widget? icon;
-
-  const AuthTextField({
-    Key? key,
-    required this.controller,
-    required this.hint,
-    this.obscure = false,
-    this.autofocus = false,
-    this.icon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      autofocus: autofocus,
-      obscureText: obscure,
-      decoration: InputDecoration(
-        hintText: hint,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        icon: icon,
       ),
     );
   }
